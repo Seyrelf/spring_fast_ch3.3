@@ -22,4 +22,13 @@ public class Ingredient {
     public  Ingredient(String id){
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package ch1.controller;
 
 import ch1.model.PizzaOrder;
+import ch1.repository.OrderRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,11 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-@Slf4j
 @RequestMapping("/orders")
 @Controller
 @SessionAttributes("pizzaOrder")
 public class OrderController {
+
+    private final OrderRepository orderRepository;
+
+    public OrderController(OrderRepository orderRepository){
+        this.orderRepository = orderRepository;
+    }
 
     @GetMapping("/current")
     public String orderForm(){
@@ -27,7 +33,7 @@ public class OrderController {
         if(errors.hasErrors()){
             return "orderForm";
         }
-        log.info("order submitted: {}", pizzaOrder);
+        orderRepository.save(pizzaOrder);
         sessionStatus.setComplete();
         return "redirect:/";
     }
